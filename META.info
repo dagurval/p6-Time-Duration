@@ -1,6 +1,6 @@
 {
 	"name" : "Time-Duration",
-	"version" : "1.04",
+	"version" : "2.00",
 	"description" : "Runded or exact English expression of durations",
 	"author" : "",
 	"depends" : [ ],
