@@ -193,45 +193,45 @@ is(duration_exact(-$v   ), '1 year, 1 day, 2 hours, and 59 seconds');
 
 print "# Some tests of concise() ...\n";
 
-is(concise duration(   0), '0s');
-is(concise duration(   1), '1s');
-is(concise duration(  -1), '1s');
-is(concise duration(   2), '2s');
-is(concise duration(  -2), '2s');
+is(concise(duration(   0)), '0s');
+is(concise(duration(   1)), '1s');
+is(concise(duration(  -1)), '1s');
+is(concise(duration(   2)), '2s');
+is(concise(duration(  -2)), '2s');
   
-is(concise later(   0), 'right then');
-is(concise later(   2), '2s later');
-is(concise later(  -2), '2s earlier');
-is(concise earlier( 0), 'right then');
-is(concise earlier( 2), '2s earlier');
-is(concise earlier(-2), '2s later');
+is(concise(later(   0)), 'right then');
+is(concise(later(   2)), '2s later');
+is(concise(later(  -2)), '2s earlier');
+is(concise(earlier( 0)), 'right then');
+is(concise(earlier( 2)), '2s earlier');
+is(concise(earlier(-2)), '2s later');
   
-is(concise ago(      0), 'right now');
-is(concise ago(      2), '2s ago');
-is(concise ago(     -2), '2s from now');
-is(concise from_now( 0), 'right now');
-is(concise from_now( 2), '2s from now');
-is(concise from_now(-2), '2s ago');
+is(concise(ago(      0)), 'right now');
+is(concise(ago(      2)), '2s ago');
+is(concise(ago(     -2)), '2s from now');
+is(concise(from_now( 0)), 'right now');
+is(concise(from_now( 2)), '2s from now');
+is(concise(from_now(-2)), '2s ago');
 
 $v = $YEAR + $DAY + 2 * $HOUR + -1;
-is(concise later(       $v   ), '1y1d later');
-is(concise later(       $v, 3), '1y1d2h later');
-is(concise later_exact( $v   ), '1y1d1h59m59s later');
+is(concise(later(       $v   )), '1y1d later');
+is(concise(later(       $v, 3)), '1y1d2h later');
+is(concise(later_exact( $v   )), '1y1d1h59m59s later');
 
 $v = $YEAR + $DAY + 2 * $HOUR + 59;
-is(concise later(       $v   ), '1y1d later');
-is(concise later(       $v, 3), '1y1d2h later');
-is(concise later_exact( $v   ), '1y1d2h59s later');
+is(concise(later(       $v   )), '1y1d later');
+is(concise(later(       $v, 3)), '1y1d2h later');
+is(concise(later_exact( $v   )), '1y1d2h59s later');
 
 $v = $YEAR + - $DAY + - 1;
-is(concise later(       $v   ), '364d later');
-is(concise later(       $v, 3), '364d later');
-is(concise later_exact( $v   ), '363d23h59m59s later');
+is(concise(later(       $v   )), '364d later');
+is(concise(later(       $v, 3)), '364d later');
+is(concise(later_exact( $v   )), '363d23h59m59s later');
 
 $v = $YEAR + - 1;
-is(concise later(       $v   ), '1y later');
-is(concise later(       $v, 3), '1y later');
-is(concise later_exact( $v   ), '364d23h59m59s later');
+is(concise(later(       $v   )), '1y later');
+is(concise(later(       $v, 3)), '1y later');
+is(concise(later_exact( $v   )), '364d23h59m59s later');
 
 
 
