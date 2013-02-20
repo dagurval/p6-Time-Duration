@@ -1,4 +1,4 @@
-use v6;
+use v7;
 module Time::Duration;
 # POD is at the end.
 
@@ -93,31 +93,31 @@ sub _separate($remainder is copy) {
   my @wheel; # retval
 
   # Years:
-  $this = int($remainder / (365 * 24 * 60 * 60));
+  $this = floor($remainder / (365 * 24 * 60 * 60));
   push @wheel, ['year', $this, 1_000_000_000];
   $remainder -= $this * (365 * 24 * 60 * 60);
 
   # Days:
-  $this = int($remainder / (24 * 60 * 60));
+  $this = floor($remainder / (24 * 60 * 60));
   push @wheel, ['day', $this, 365];
   $remainder -= $this * (24 * 60 * 60);
 
   # Hours:
-  $this = int($remainder / (60 * 60));
+  $this = floor($remainder / (60 * 60));
   push @wheel, ['hour', $this, 24];
   $remainder -= $this * (60 * 60);
 
   # Minutes:
-  $this = int($remainder / 60);
+  $this = floor($remainder / 60);
   push @wheel, ['minute', $this, 60];
   $remainder -= $this * 60;
 
-  push @wheel, ['second', int($remainder), 60];
+  push @wheel, ['second', floor($remainder), 60];
   return @wheel;
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-sub _approximate($precision, @wheel, $nonzero_count = 0, $improperly_expressed = Nil) {
+sub _approximate($precision, @wheel, $nonzero_count is copy = 0 , $improperly_expressed  is copy = Nil) {
   # Now nudge the wheels into an acceptably (im)precise configuration
 
   {
@@ -175,24 +175,26 @@ sub _approximate($precision, @wheel, $nonzero_count = 0, $improperly_expressed =
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-sub _render(@_) {
-  # Make it into English
+sub _render(Str $direction, @approximate, @separate?) {
+    # Make it into English
 
-  my $direction = shift @_;
-  my @wheel = map
-        {;
-            (  @_.[1] == 0) ?? ()  # zero wheels
-            !! (@_.[1] == 1) ?? "{@_.[1]} {@_.[0]}"  # singular
-            !!                  "{@_.[1]} {@_.[0]}s" # plural
-        }
-        @_
-  ;
-  return "just now" unless @wheel; # sanity
-  @wheel[*-1] .= $direction;
-  return @wheel[0] if @wheel.elems == 1;
-  return "@wheel[0] and @wheel[1]" if @wheel.elems == 2;
-  @wheel[*-1] = "and @wheel[*-1]";
-  return join q{, }, @wheel;
+    my @p = @approximate.list, @separate.list;
+
+    my @wheel = map
+    {;
+        (  $_.[1] == 0) ?? ()  # zero wheels
+            !! ($_.[1] == 1) ?? "{$_.[1]} {$_.[0]}"  # singular
+            !!                  "{$_.[1]} {$_.[0]}s" # plural
+    }, @p;
+
+    return "just now" unless @wheel; # sanity
+    
+    @wheel[*-1] ~= $direction;
+    return @wheel[0] if @wheel.elems == 1;
+    return "@wheel[0] and @wheel[1]" if @wheel.elems == 2;
+
+    @wheel[*-1] = "and @wheel[*-1]";
+    return join q{, }, @wheel;
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
