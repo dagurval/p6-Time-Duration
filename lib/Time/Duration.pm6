@@ -1,4 +1,4 @@
-use v7;
+use v6;
 module Time::Duration;
 # POD is at the end.
 
@@ -8,12 +8,12 @@ constant $DEBUG = False;
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-sub concise(Str $string) is export {
+sub concise(Str $string is copy) is export {
   #print "in : $string\n";
-  $string.=trans( ',' => '' ); #tr/,//d;
-  $string ~~ s/\band\b//;
-  $string ~~ s:g/\b(year|day|hour|minute|second)s?\b/{ substr($1,0,1) }/;
-  $string ~~ s:g/\s*(\d+)\s*/$1/;
+  $string .= trans( ',' => '' ); #tr/,//d;
+  $string ~~ s/<<and>>//;
+  $string ~~ s:g/<<(year|day|hour|minute|second)s?>>/{ $0.substr(0,1) }/;
+  $string ~~ s:g/\s*(\d+)\s*/$0/;
   return $string;
 }
 
