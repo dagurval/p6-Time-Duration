@@ -117,7 +117,7 @@ sub _separate($remainder is copy) {
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-sub _approximate($precision, @wheel, $nonzero_count is copy = 0 , $improperly_expressed  is copy = Nil) {
+sub _approximate($precision, @wheel) {
   # Now nudge the wheels into an acceptably (im)precise configuration
 
   {
@@ -125,16 +125,19 @@ sub _approximate($precision, @wheel, $nonzero_count is copy = 0 , $improperly_ex
     #  1) number of nonzero wheels must be <= $precision
     #  2) no wheels can be improperly expressed (like having "60" for mins)
 
-    #$DEBUG and print join ' ', '#', (map "${$_}[1] ${$_}[0]",  @wheel), "\n";
-    my $i = 0;
-    for @wheel -> $this {
+    my $nonzero_count = 0;
+    my $improperly_expressed;
+
+    $DEBUG and say "approximate wheel: ", @wheel.perl;
+    loop (my $i = 0; $i < @wheel.elems; $i++) {
+      my $this = @wheel[$i];
       next if $this.[1] == 0; # Zeros require no attention.
       ++$nonzero_count;
       next if $i == 0; # the years wheel is never improper or over any limit; skip
 
       if $nonzero_count > $precision {
         # This is one nonzero wheel too many!
-        #$DEBUG and print '', $this->[0], " is one nonzero too many!\n";
+        $DEBUG and print '', $this.[0], " is one nonzero too many! ($nonzero_count > $precision)\n";
 
         # Incr previous wheel if we're big enough:
         if $this.[1] >= ($this.[*-1] / 2) {
@@ -145,14 +148,13 @@ sub _approximate($precision, @wheel, $nonzero_count is copy = 0 , $improperly_ex
 
         # Reset this and subsequent wheels to 0:
         loop (my $j = $i; $j < @wheel.elems; $j++) { @wheel[$j][1] = 0 }
-        return _approximate($precision, @wheel, $nonzero_count, $improperly_expressed);
+        return _approximate($precision, @wheel);
       } elsif ($this.[1] >= $this.[*-1]) {
         # It's an improperly expressed wheel.  (Like "60" on the mins wheel)
         $improperly_expressed = $i;
-        #$DEBUG and print '', $this->[0], ' (', $this->[1],
-           #") is improper!\n";
+        $DEBUG and print '', $this.[0], ' (', $this.[1],
+           ") is improper!\n";
       }
-      $i++;
     }
 
     if (defined $improperly_expressed) {
@@ -164,7 +166,7 @@ sub _approximate($precision, @wheel, $nonzero_count is copy = 0 , $improperly_ex
       @wheel[ $improperly_expressed][1] = 0;
       # We never have a "150" in the minutes slot -- if it's improper,
       #  it's only by having been rounded up to the limit.
-      return _approximate($precision, @wheel, $nonzero_count, $improperly_expressed);
+      return _approximate($precision, @wheel);
     }
 
     # Otherwise there's not too many nonzero wheels, and there's no
@@ -196,6 +198,8 @@ sub _render(Str $direction, @approximate, @separate?) {
     @wheel[*-1] = "and @wheel[*-1]";
     return join q{, }, @wheel;
 }
+#my $v = 3800;
+#say later(       $v   );
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
