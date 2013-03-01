@@ -1,5 +1,5 @@
 {
-	"name" : "Time-Duration",
+	"name" : "Time::Duration",
 	"version" : "2.00",
 	"description" : "Runded or exact English expression of durations",
 	"author" : "",
