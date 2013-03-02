@@ -20,29 +20,29 @@ sub concise(Str $string is copy) is export {
 sub later(Int $sec, Int $prec = 2) is export {
   interval($sec, $prec, ' earlier', ' later', 'right then'); }
 
-sub later_exact(Int $sec, Int $prec = 2) is export {
-  interval_exact($sec, $prec, ' earlier', ' later', 'right then'); }
+sub later_exact(Int $sec) is export {
+  interval_exact($sec, ' earlier', ' later', 'right then'); }
 
 sub earlier(Int $sec, Int $prec = 2) is export {
   interval($sec, $prec, ' later', ' earlier', 'right then'); }
 
-sub earlier_exact(Int $sec, Int $prec = 2) is export {
-  interval_exact($sec, $prec, ' later', ' earlier', 'right then'); }
+sub earlier_exact(Int $sec) is export {
+  interval_exact($sec, ' later', ' earlier', 'right then'); }
 
 sub ago(Int $sec, Int $prec = 2) is export {
   interval($sec, $prec, ' from now', ' ago', 'right now'); }
 
-sub ago_exact(Int $sec, Int $prec = 2) is export {
-  interval_exact($sec, $prec, ' from now', ' ago', 'right now'); }
+sub ago_exact(Int $sec) is export {
+  interval_exact($sec, ' from now', ' ago', 'right now'); }
 
 sub from_now(Int $sec, Int $prec = 2) is export {
   interval($sec, $prec, ' ago', ' from now', 'right now'); }
 
-sub from_now_exact(Int $sec, Int $prec = 2) is export {
-  interval_exact($sec, $prec, ' ago', ' from now', 'right now'); }
+sub from_now_exact(Int $sec) is export {
+  interval_exact($sec, ' ago', ' from now', 'right now'); }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-sub duration_exact(Int $span, Int $precision = 2) is export {
+sub duration_exact(Int $span) is export {
   return '0 seconds' unless $span;
   _render('',
           _separate(abs $span));
@@ -57,7 +57,7 @@ sub duration(Int $span, Int $precision = 2) is export {
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-sub interval_exact(Int $span, Int $prec, Str $neg, Str $pos, Str $zero) {
+sub interval_exact(Int $span, Str $neg, Str $pos, Str $zero) {
   #my $span = $_[0];                     # interval, in seconds
                                          # precision is ignored
   my $direction = ($span <= -1) ?? $neg  # what a neg number gets
@@ -80,10 +80,6 @@ sub interval(Int $span, Int $precision, Str $neg, Str $pos, Str $zero) {
 #
 # The actual figuring is below here
 
-constant $MINUTE = 60;
-constant $HOUR = 3600;
-constant $DAY  = 24 * $HOUR;
-constant $YEAR = 365 * $DAY;
 
 sub _separate($remainder is copy) {
   # Breakdown of seconds into units, starting with the most significant
@@ -198,8 +194,6 @@ sub _render(Str $direction, @approximate, @separate?) {
     @wheel[*-1] = "and @wheel[*-1]";
     return join q{, }, @wheel;
 }
-#my $v = 3800;
-#say later(       $v   );
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

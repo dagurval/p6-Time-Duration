@@ -3,7 +3,6 @@ use Test;
 plan 135;
 
 
-my @them;
 BEGIN { @*INC.unshift: '../lib'; }
 
 use Time::Duration;
