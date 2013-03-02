@@ -185,8 +185,9 @@ merchantability or fitness for a particular purpose.
 
 AUTHOR
 ------
-Original Author: Sean M. Burke, `sburke@cpan.org'
-Perl 5 Maintainer: Avi Finkel, `avi@finkel.org'
+Original Author: Sean M. Burke, <sburke@cpan.org>
+
+Perl 5 Maintainer: Avi Finkel, <avi@finkel.org>
 
 Ported and maintained in Perl 6 by: Dagur Valberg Johannsson
 
