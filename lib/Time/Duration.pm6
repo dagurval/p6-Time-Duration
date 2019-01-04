@@ -176,13 +176,13 @@ sub _approximate($precision, @wheel) {
 sub _render(Str $direction, @approximate, @separate?) {
     # Make it into English
 
-    my @p = @approximate.list, @separate.list;
+    my @p = |@approximate, |@separate;
 
     my @wheel = map
     {;
-        (  $_.[1] == 0) ?? ()  # zero wheels
-            !! ($_.[1] == 1) ?? "{$_.[1]} {$_.[0]}"  # singular
-            !!                  "{$_.[1]} {$_.[0]}s" # plural
+     (  $_.[1] == 1) ?? "{$_.[1]} {$_.[0]}"  # singular
+     !! ($_.[1] > 1) ?? "{$_.[1]} {$_.[0]}s" # plural
+     !! next 
     }, @p;
 
     return "just now" unless @wheel; # sanity
