@@ -1,4 +1,4 @@
-use v6;
+use v6.c;
 unit module Time::Duration;
 # POD is at the end.
 
@@ -215,11 +215,11 @@ Time::Duration - rounded or exact English expression of durations
 
 Example use in a program that ends by noting its runtime:
 
-  my $start_time = time();
+  my $start_time = time;
   use Time::Duration;
 
   # then things that take all that time, and then ends:
-  print "Runtime ", duration(time() - $start_time), ".\n";
+  print "Runtime: ", duration(time - $start_time), ".\n";
 
 Example use in a program that reports age of a file:
 
@@ -236,7 +236,7 @@ terms.
 
 In the first example in the Synopsis, using duration($interval_seconds):
 
-If the C<time() - $start_time> is 3 seconds, this prints
+If the C<time - $start_time> is 3 seconds, this prints
 "Runtime: B<3 seconds>.".  If it's 0 seconds, it's "Runtime: B<0 seconds>.".
 If it's 1 second, it's "Runtime: B<1 second>.".  If it's 125 seconds, you
 get "Runtime: B<2 minutes and 5 seconds>.".  If it's 3820 seconds (which
