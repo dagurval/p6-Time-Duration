@@ -1,0 +1,49 @@
+Revision history for Perl extension Time::Duration
+
+# 2023-01-18 v2.0.2
+
+ADDED:
+  - dist.ini
+  - LICENSE file that (one hopes)
+    clearly records the intentions of the original
+    authors when they said it was distributed under
+    the same license as perl.
+
+CHANGED:
+  - improved code examples
+  - replaced "I" in backstory so as to make it
+    clear it was Sean telling the story.
+  - improved META6.json
+
+# 2023-01-18 v2.0.1
+
+CHANGED:
+* .pm6 file extension now .rakumod
+* minor documentation tweaks
+
+# 2013-02-19 Dagur
+
+CHANGED:
+Ported to Perl6.
+
+# 2006-07-23
+
+CHANGED:
+Reorganizing tests
+
+# 2006-02-28
+
+CHANGED:
+
+* Updating new maintainer information.
+
+# 2002-10-08 v1.02 
+
+ADDED: 
+
+* Added concise().
+
+# 2001-10-25 v1.01
+
+* first release version.
+
