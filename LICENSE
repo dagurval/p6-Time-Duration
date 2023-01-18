@@ -1,0 +1,14 @@
+Time::Duration
+Copyright 2006, Sean M. Burke,
+Copyright ???, Avi Finkel
+Copyright 2013, Dagur Valberg Johannsson,
+Copyright 2023, Kay Rhodes
+
+
+This is free software
+It is free software; you can redistribute it and/or modify it under the terms of either:
+
+a) the GNU General Public License as published by the Free Software Foundation; either version 1, or (at your option) any later version, or
+   https://www.gnu.org/licenses/licenses.html#GPL
+b) the "Artistic License".
+   https://dev.perl.org/licenses/artistic.html

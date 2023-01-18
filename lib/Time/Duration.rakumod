@@ -215,18 +215,49 @@ Time::Duration - rounded or exact English expression of durations
 
 Example use in a program that ends by noting its runtime:
 
+=begin code
   my $start_time = time;
   use Time::Duration;
 
   # then things that take all that time, and then ends:
   print "Runtime: ", duration(time - $start_time), ".\n";
+  # see also duration_exact
+=end code
 
 Example use in a program that reports age of a file:
 
+=begin code
     use Time::Duration;
     my $file = 'that_file';
-    my $age = SomeModule::get_modtime($file);
-    print "$file was modified ", ago($age);
+    my $age_in_seconds = SomeModule::get_modtime($file);
+    print "$file was modified ", ago($age_in_seconds);
+    # see also ago_exact
+=end code
+
+Example use with more concise output. Simply wrap the output
+of the other functions as a parameter to C<concise>
+=begin code
+       ago($age_in_seconds);                  # 23 hours and 56 minutes ago
+       concise(ago($age_in_seconds));         # 23h56m ago
+       concise(duration(time - $start_time)); # 4m8s
+=end code
+
+Example of future time
+=begin code
+       from_now(120);            # 2 minutes from now
+       concise(from_now(86178)); # 23h56m from now
+       # see also from_now_exact
+       later(86178);             # 23 hours and 56 minutes later
+       concise(later(86178));    # 23h56m later
+=end code
+
+And things that happened earlier
+
+=begin code
+       earlier(86178);          # 23 hours and 56 minutes earlier
+       concise(earlier(86178)); # 23h56m earlier
+       # see also earlier_exact
+=end code
 
 =head1 DESCRIPTION
 
@@ -236,29 +267,24 @@ terms.
 
 In the first example in the Synopsis, using duration($interval_seconds):
 
-If the C<time - $start_time> is 3 seconds, this prints
-"Runtime: B<3 seconds>.".  If it's 0 seconds, it's "Runtime: B<0 seconds>.".
-If it's 1 second, it's "Runtime: B<1 second>.".  If it's 125 seconds, you
-get "Runtime: B<2 minutes and 5 seconds>.".  If it's 3820 seconds (which
-is exactly 1h, 3m, 40s), you get it rounded to fit within two expressed
-units: "Runtime: B<1 hour and 4 minutes>.".  Using duration_exact instead
-would return "Runtime: B<1 hour, 3 minutes, and 40 seconds>".
+=item If the C<time - $start_time> is 3 seconds, this prints "Runtime: B<3 seconds>.".
+=item If it's 0 seconds, it's "Runtime: B<0 seconds>.".
+=item If it's 1 second, it's "Runtime: B<1 second>.".
+=item If it's 125 seconds, you get "Runtime: B<2 minutes and 5 seconds>.".
+=item If it's 3820 seconds (which is exactly 1h, 3m, 40s), you get it rounded to fit within two expressed units: "Runtime: B<1 hour and 4 minutes>.".
+=item Using duration_exact instead would return "Runtime: B<1 hour, 3 minutes, and 40 seconds>".
 
-In the second example in the Synopsis, using ago($interval_seconds):
+In the second example in the Synopsis, using C<ago($interval_seconds)>:
 
-If the $age is 3 seconds, this prints
-"I<file> was modified B<3 seconds ago>".  If it's 0 seconds, it's
-"I<file> was modified B<just now>", as a special case.  If it's 1 second,
-it's "from B<1 second ago>".  If it's 125 seconds, you get "I<file> was
-modified B<2 minutes and 5 seconds ago>".  If it's 3820 seconds (which
-is exactly 1h, 3m, 40s), you get it rounded to fit within two expressed
-units: "I<file> was modified B<1 hour and 4 minutes ago>".
-Using ago_exact instead
+=item If the C<$age_in_seconds> is 3 seconds, this prints "I<file> was modified B<3 seconds ago>".
+=item If it's 0 seconds, it's "I<file> was modified B<just now>", as a special case.
+=item If it's 1 second, it's "from B<1 second ago>".
+=item If it's 125 seconds, you get "I<file> was modified B<2 minutes and 5 seconds ago>".
+=item If it's 3820 seconds (which is exactly 1h, 3m, 40s), you get it rounded to fit within two expressed units: "I<file> was modified B<1 hour and 4 minutes ago>".
+=item Using C<ago_exact> instead
 would return "I<file> was modified B<1 hour, 3 minutes, and 40 seconds
-ago>".  And if the file's
-modtime is, surprisingly, three seconds into the future, $age is -3,
-and you'll get the equally and appropriately surprising
-"I<file> was modified B<3 seconds from now>."
+ago>".
+=item And if the file's modtime is, surprisingly, three seconds into the future, $age is -3, and you'll get the equally and appropriately surprising "I<file> was modified B<3 seconds from now>."
 
 
 =head1 FUNCTIONS
@@ -274,11 +300,11 @@ by default when you call C<use Time::Duration;>.
 =item duration($seconds, $precision)
 
 Returns English text expressing the approximate time duration
-of abs($seconds), with at most S<C<$precision || 2>> expressed units.
-(That is, duration($seconds) is the same as duration($seconds,2).)
+of C<abs($seconds)>, with at most S<C<$precision || 2>> expressed units.
+(That is, C<duration($seconds)> is the same as C<duration($seconds,2)>.)
 
-For example, duration(120) or duration(-120) is "2 minutes".  And
-duration(0) is "0 seconds".
+For example, C<duration(120)> or C<duration(-120)> is "2 minutes".  And
+C<duration(0)> is "0 seconds".
 
 The precision figure means that no more than that many units will
 be used in expressing the time duration.  For example,
@@ -295,8 +321,8 @@ in for that duration.
 
 =item duration_exact($seconds)
 
-Same as duration($seconds), except that the returned value is an exact
-(unrounded) expression of $seconds.  For example, duration_exact(31629659)
+Same as C<duration($seconds)>, except that the returned value is an exact
+(unrounded) expression of C<$seconds>.  For example, C<duration_exact(31629659)>
 returns "1 year, 1 day, 2 hours, and 59 seconds later",
 which is I<exactly> true.
 
@@ -325,8 +351,8 @@ Same as ago($seconds), except that the returned value is an exact
 
 =item from_now_exact($seconds)
 
-The same as ago(-$seconds), ago(-$seconds, $precision),
-ago_exact(-$seconds).  For example, from_now(120) is "2 minutes from now".
+The same as C<ago(-$seconds)>, C<ago(-$seconds, $precision)>,
+C<ago_exact(-$seconds)>.  For example, C<from_now(120)> is "2 minutes from now".
 
 
 =item later($seconds)
@@ -377,16 +403,16 @@ for some other language than English.
 
 =head1 BACKSTORY
 
-I wrote the basic C<ago()> function for use in Infobot
-(C<http://www.infobot.org>), because I was tired of this sort of
+Sean Burke wrote the basic C<ago()> function for use in Infobot
+(C<http://www.infobot.org>), because he was tired of this sort of
 response from the Purl Infobot:
 
   me> Purl, seen Woozle?
   <Purl> Woozle was last seen on #perl 20 days, 7 hours, 32 minutes
   and 40 seconds ago, saying: Wuzzle!
 
-I figured if it was 20 days ago, I don't care about the seconds.  So
-once I had written C<ago()>, I abstracted the code a bit and got
+He figured if it was 20 days ago, he don't care about the seconds.  So
+once he had written C<ago()>, he abstracted the code a bit and got
 all the other functions.
 
 
@@ -408,14 +434,16 @@ I<Star Trek: The Next Generation> (1987-1994), where the character
 Data would express time durations like
 "1 year, 20 days, 22 hours, 59 minutes, and 35 seconds"
 instead of rounding to "1 year and 21 days".  This is because no-one
-ever told him to use Time::Duration.
+ever told him to C<use Time::Duration>.
 
 
 
 =head1 COPYRIGHT AND DISCLAIMER
 
-Copyright 2006, Sean M. Burke C<sburke@cpan.org>, 
-Copyright 2013, Dagur Valberg Johannsson, 
+Copyright 2006, Sean M. Burke,
+Copyright 2013, Dagur Valberg Johannsson,
+Copyright 2023, Kay Rhodes
+
 all rights reserved.  This program is free software; you can redistribute it
 and/or modify it under the same terms as Perl 5 itself.
 
@@ -425,9 +453,10 @@ merchantability or fitness for a particular purpose.
 
 =head1 AUTHOR
 
-Original Author: Sean M. Burke, `sburke@cpan.org'
-Perl 5 Maintainer: Avi Finkel, `avi@finkel.org'
-Ported and maintained in Perl 6 by: Dagur Valberg Johannsson
+=item Original Author: Sean M. Burke
+=item Perl 5 Maintainer: Avi Finkel
+=item Ported to Perl 6 by: Dagur Valberg Johannsson
+=item Maintained in Perl 6 by: masukomi (A.K.A. Kay Rhodes)
 
 =end pod
 
