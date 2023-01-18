@@ -9,11 +9,11 @@ SYNOPSIS
 --------
 Example use in a program that ends by noting its runtime:
 
-      my $start_time = time();
+      my $start_time = time;
       use Time::Duration;
       
       # then things that take all that time, and then ends:
-      print "Runtime ", duration(time() - $start_time), ".\n";
+      print "Runtime: ", duration(time - $start_time), ".\n";
 
 Example use in a program that reports age of a file:
 
@@ -32,7 +32,7 @@ or exact terms.
 In the first example in the Synopsis, using
     duration($interval_seconds):
 
-If the `time() - $start_time' is 3 seconds, this prints "Runtime:
+If the `time - $start_time' is 3 seconds, this prints "Runtime:
 3 seconds.". If it's 0 seconds, it's "Runtime: 0 seconds.". If
 it's 1 second, it's "Runtime: 1 second.". If it's 125 seconds, you
 get "Runtime: 2 minutes and 5 seconds.". If it's 3820 seconds
@@ -206,7 +206,7 @@ INSTALLATION
 You install Time::Duration, as you would install any perl 6 module
 library, by running these commands:
 
-   panda install Time::Duration
+   zef install Time::Duration
 
 See http://modules.perl6.org/ for more information.
 
