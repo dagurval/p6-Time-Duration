@@ -1,12 +1,22 @@
 {
 	"perl" : "6.*",
 	"name" : "Time::Duration",
-	"version" : "2.00",
+	"version" : "2.0.1",
 	"description" : "Rounded or exact English expression of durations",
 	"provides" : {
 		"Time::Duration" : "lib/Time/Duration.pm6"
 	},
-	"author" : "",
+	"auth" : "dagurval",
+	"authors": [
+		"dagurval <dagurval@pvv.ntnu.no>",
+		"masukomi <masukomi@masukomi.org>",
+		"Rod Taylor <rbt@rbt.ca>",
+		"MorayJ <github@mrjones.co.uk>"
+	],
+	"build-depends": [],
 	"depends" : [ ],
+	"test-depends": [],
+	"resources": [],
+	"tags": ["datetime"],
 	"source-url" : "git://github.com/dagurval/p6-Time-Duration.git"
 }
