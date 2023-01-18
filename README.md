@@ -1,3 +1,5 @@
+[![SparrowCI](https://ci.sparrowhub.io/project/gh-masukomi-p6-Time-Duration/badge)](https://ci.sparrowhub.io)
+
 NAME
 ====
 

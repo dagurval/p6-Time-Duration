@@ -207,6 +207,9 @@ sub _render(Str $direction, @approximate, @separate?) {
 #"1y 1d 1h 0m 0s", which is short enough, and is properly expressed.
 =begin pod
 
+[![SparrowCI](https://ci.sparrowhub.io/project/gh-masukomi-p6-Time-Duration/badge)](https://ci.sparrowhub.io)
+
+
 =head1 NAME
 
 Time::Duration - rounded or exact English expression of durations
