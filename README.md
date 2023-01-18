@@ -8,40 +8,40 @@ SYNOPSIS
 
 Example use in a program that ends by noting its runtime:
 
-      my $start_time = time;
-      use Time::Duration;
+    my $start_time = time;
+    use Time::Duration;
 
-      # then things that take all that time, and then ends:
-      print "Runtime: ", duration(time - $start_time), ".\n";
-      # see also duration_exact
+    # then things that take all that time, and then ends:
+    print "Runtime: ", duration(time - $start_time), ".\n";
+    # see also duration_exact
 
 Example use in a program that reports age of a file:
 
-        use Time::Duration;
-        my $file = 'that_file';
-        my $age_in_seconds = SomeModule::get_modtime($file);
-        print "$file was modified ", ago($age_in_seconds);
-        # see also ago_exact
+    use Time::Duration;
+    my $file = 'that_file';
+    my $age_in_seconds = SomeModule::get_modtime($file);
+    print "$file was modified ", ago($age_in_seconds);
+    # see also ago_exact
 
 Example use with more concise output. Simply wrap the output of the other functions as a parameter to `concise`
 
-           ago($age_in_seconds);                  # 23 hours and 56 minutes ago
-           concise(ago($age_in_seconds));         # 23h56m ago
-           concise(duration(time - $start_time)); # 4m8s
+    ago($age_in_seconds);                  # 23 hours and 56 minutes ago
+    concise(ago($age_in_seconds));         # 23h56m ago
+    concise(duration(time - $start_time)); # 4m8s
 
 Example of future time
 
-           from_now(120);            # 2 minutes from now
-           concise(from_now(86178)); # 23h56m from now
-           # see also from_now_exact
-           later(86178);             # 23 hours and 56 minutes later
-           concise(later(86178));    # 23h56m later
+    from_now(120);            # 2 minutes from now
+    concise(from_now(86178)); # 23h56m from now
+    # see also from_now_exact
+    later(86178);             # 23 hours and 56 minutes later
+    concise(later(86178));    # 23h56m later
 
 And things that happened earlier
 
-           earlier(86178);          # 23 hours and 56 minutes earlier
-           concise(earlier(86178)); # 23h56m earlier
-           # see also earlier_exact
+    earlier(86178);          # 23 hours and 56 minutes earlier
+    concise(earlier(86178)); # 23h56m earlier
+    # see also earlier_exact
 
 DESCRIPTION
 ===========
