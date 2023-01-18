@@ -6,7 +6,7 @@
 	"provides" : {
 		"Time::Duration" : "lib/Time/Duration.pm6"
 	},
-	"auth" : "dagurval",
+	"auth" : "zef:masukomi",
 	"authors": [
 		"dagurval <dagurval@pvv.ntnu.no>",
 		"masukomi <masukomi@masukomi.org>",
